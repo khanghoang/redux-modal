@@ -1,4 +1,4 @@
-export const modalReducer = (state, action) => {
+export const modalReducer = (state = {}, action) => {
   if (!(action.type && action.type.startsWith('REDUX_MODAL/'))) {
     return state;
   }

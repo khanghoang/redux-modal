@@ -1,3 +1,4 @@
 export const isModalOpenSelector = name => state => {
-  return state[name].isOpen;
+  if (!state[name]) return false;
+  return !!state[name].open;
 }
