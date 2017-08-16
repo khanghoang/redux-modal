@@ -1,4 +1,4 @@
-import { isModalOpenSelector } from '../src/selector';
+import { isModalOpenSelector, portalSelector } from '../src/selector';
 
 describe('Selector', () => {
   it('returns isOpen value', () => {
@@ -7,5 +7,17 @@ describe('Selector', () => {
     };
     const actual = isModalOpenSelector('myform')(state);
     expect(actual).toEqual(false);
+  });
+});
+
+describe('Portal selector', () => {
+  it('returns isOpen value', () => {
+    const state = {
+      modals: {
+        myform: {},
+      }
+    };
+    const actual = portalSelector(state);
+    expect(actual).toEqual({ myform: {} });
   });
 });

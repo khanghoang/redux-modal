@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { createStore } from 'redux';
 import TestUtils from 'react-dom/test-utils';
 
+import { ModalManager } from '../src/modalManager';
 import { close, open, toggle } from '../src/actions';
 import { connectModal } from '../src/connectModal';
 import { modalReducer } from '../src/reducer';
@@ -15,6 +16,12 @@ class DumpModal extends Component {
 }
 
 describe('connectModal', () => {
+  it('registers modal to ModalManager', () => {
+    connectModal('mypopup')(DumpModal);
+    const modal = ModalManager.getModalByName('mypopup');
+    expect(modal).toBeDefined();
+  });
+
   it('changes isOpen after connect to store', () => {
     const ConnectedModal = connectModal('mypopup')(DumpModal);
     const store = createStore(modalReducer);

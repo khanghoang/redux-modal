@@ -1,6 +1,6 @@
 {
-  "name": "redux-modal",
-  "version": "1.0.0",
+  "name": "@khanghoang/redux-modal",
+  "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
@@ -23,5 +23,18 @@
   },
   "peerDependencies": {
     "react": "^15.6.1"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khanghoang/redux-modal.git"
+  },
+  "author": "hoangtrieukhang@gmail.com",
+  "bugs": {
+    "url": "https://github.com/khanghoang/redux-modal/issues"
+  },
+  "homepage": "https://github.com/khanghoang/redux-modal#readme",
+  "description": ""
 }
