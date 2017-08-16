@@ -1,6 +1,6 @@
 export const isModalOpenSelector = name => state => {
-  if (!state[name]) return false;
-  return !!state[name].open;
+  if (!state.modals[name]) return false;
+  return !!state.modals[name].open;
 }
 
 export const portalSelector = state => state.modals;

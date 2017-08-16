@@ -1,4 +1,4 @@
-import modalReducer from './src/portal';
+import modalReducer from './src/reducer';
 
 export { close, open, toggle } from './src/actions';
 export { connectModal } from './src/connectModal';

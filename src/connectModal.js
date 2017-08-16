@@ -5,10 +5,6 @@ import { isModalOpenSelector } from './selector';
 
 export const connectModal = name =>
   Component => {
-    ModalManager.register({
-      name,
-      component: Component,
-    });
     return connect(
       state => ({
         isOpen: isModalOpenSelector(name)(state),
