@@ -95,4 +95,17 @@ describe('connectModal', () => {
     });
   });
 
+  describe('Unregistered modal', () => {
+    it('will not raise error when it is called to open', () => {
+      expect(() => {
+        const store = createStore(combineReducers(modalReducer));
+        const container = TestUtils.renderIntoDocument(
+          <Provider store={store}>
+            <ModalPortal wrapComponent="div" />
+          </Provider>
+        );
+        store.dispatch(open('mypopup'));
+      }).not.toThrow();
+    });
+  });
 });
