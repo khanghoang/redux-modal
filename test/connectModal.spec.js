@@ -1,6 +1,6 @@
 import { Provider } from 'react-redux';
 import React, { Component } from 'react';
-import { combineReducers } from 'redux';
+import { combineReducers, compose } from 'redux';
 
 import { createStore } from 'redux';
 import TestUtils from 'react-dom/test-utils';
@@ -19,10 +19,7 @@ class DumpModal extends Component {
 
 describe('connectModal', () => {
   it('changes isOpen after connect to store', () => {
-    ModalManager.register({
-      name: 'mypopup',
-      component: connectModal('mypopup')(DumpModal),
-    });
+    connectModal('mypopup')(DumpModal);
     const store = createStore(combineReducers(modalReducer));
     const container = TestUtils.renderIntoDocument(
       <Provider store={store}>
@@ -30,11 +27,29 @@ describe('connectModal', () => {
       </Provider>
     );
     store.dispatch(open('mypopup'));
-    const stub = TestUtils.findRenderedComponentWithType(container, DumpModal)
+    const stub = TestUtils.findRenderedComponentWithType(container, DumpModal);
     expect(stub.props.isOpen).toEqual(true);
     store.dispatch(close('mypopup'));
     expect(stub.props.isOpen).toEqual(false);
     store.dispatch(toggle('mypopup'));
     expect(stub.props.isOpen).toEqual(true);
+  });
+
+  it('can work with recompose', () => {
+    const mapProps = (mapFn) => 
+      (Component) => (props) => <Component {...mapFn(props)} />
+    compose(
+      connectModal('mypopup'),
+      mapProps(({ isOpen }) => ({ open: isOpen }))
+    )(DumpModal);
+    const store = createStore(combineReducers(modalReducer));
+    const container = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <ModalPortal wrapComponent="div" />
+      </Provider>
+    );
+    store.dispatch(open('mypopup'));
+    const stub = TestUtils.findRenderedComponentWithType(container, DumpModal);
+    expect(stub.props.open).toEqual(true);
   });
 });
