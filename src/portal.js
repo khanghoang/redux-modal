@@ -6,7 +6,7 @@ import { portalSelector } from './selector';
 
 const Portal = ({ modals, wrapComponent = "div" }) => {
   const modalComponents = Object.keys(modals).map(name =>
-    ModalManager.getModalByName(name));
+    ModalManager.getModalByName(name)).filter(t => t);
 
   return (
     React.createElement(wrapComponent, {},
