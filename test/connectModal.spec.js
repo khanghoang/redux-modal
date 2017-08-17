@@ -1,3 +1,4 @@
+jest.mock('../src/modalManager');
 import { Provider } from 'react-redux';
 import React, { Component } from 'react';
 import { combineReducers, compose } from 'redux';
@@ -5,7 +6,7 @@ import { combineReducers, compose } from 'redux';
 import { createStore } from 'redux';
 import TestUtils from 'react-dom/test-utils';
 
-import { ModalManager } from '../src/modalManager';
+import { ModalManagerClass, __purge } from '../src/modalManager';
 import { ModalPortal } from '../src/portal';
 import { close, open, toggle } from '../src/actions';
 import { connectModal } from '../src/connectModal';
@@ -18,6 +19,7 @@ class DumpModal extends Component {
 }
 
 describe('connectModal', () => {
+  beforeEach(__purge);
   it('changes isOpen after connect to store', () => {
     connectModal('mypopup')(DumpModal);
     const store = createStore(combineReducers(modalReducer));
