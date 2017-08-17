@@ -4,9 +4,9 @@ import React, { Component } from 'react';
 import { combineReducers, createStore } from 'redux';
 import TestUtils from 'react-dom/test-utils';
 
-import { ModalManager } from '../src/modalManager';
 import { ModalPortal } from '../src/portal';
-import { close, open } from '../src/actions';
+import { connectModal } from '../src/connectModal';
+import { open } from '../src/actions';
 import modalReducer from '../src/reducer';
 
 class DumpModal extends Component {
@@ -29,18 +29,12 @@ describe('connectModal', () => {
         <ModalPortal wrapComponent="div" />
       </Provider>
     );
-    ModalManager.register({
-      name: 'mypopup',
-      component: DumpModal,
-    });
-
-    ModalManager.register({
-      name: 'mypopup2',
-      component: AnotherDumpModal,
-    });
+    connectModal('mypopup')(DumpModal);
+    connectModal('mypopup2')(AnotherDumpModal);
 
     store.dispatch(open('mypopup'));
     store.dispatch(open('mypopup2'));
+
     const modal1 = TestUtils.findRenderedComponentWithType(
       container,
       DumpModal
