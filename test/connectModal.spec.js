@@ -52,4 +52,45 @@ describe('connectModal', () => {
     const stub = TestUtils.findRenderedComponentWithType(container, DumpModal);
     expect(stub.props.open).toEqual(true);
   });
+
+  describe('DEV environment', () => {
+    it('warns the user when he forgets to add reducer to root reducer', () => {
+      compose(
+        connectModal('mypopup'),
+      )(DumpModal);
+      const store = createStore(() => ({}));
+
+      global.__DEV__ = true;
+
+      expect(() => {
+        TestUtils.renderIntoDocument(
+          <Provider store={store}>
+            <ModalPortal wrapComponent="div" />
+          </Provider>
+        );
+        store.dispatch(open('mypopup'));
+      }).toThrowError(/You need to register portal modal reducer/);
+    });
+  });
+
+  describe('DEV production', () => {
+    it('does not warn the user when he forgets to add reducer to root reducer', () => {
+      compose(
+        connectModal('mypopup'),
+      )(DumpModal);
+      const store = createStore(() => ({}));
+
+      global.__DEV__ = false;
+
+      expect(() => {
+        TestUtils.renderIntoDocument(
+          <Provider store={store}>
+            <ModalPortal wrapComponent="div" />
+          </Provider>
+        );
+        store.dispatch(open('mypopup'));
+      }).not.toThrowError(/You need to register portal modal reducer/);
+    });
+  });
+
 });

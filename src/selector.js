@@ -3,4 +3,14 @@ export const isModalOpenSelector = name => state => {
   return !!state.modals[name].open;
 }
 
-export const portalSelector = state => state.modals;
+export const portalSelector = state => {
+  if (!state.modals) {
+    if (__DEV__) {
+      throw new Error('You need to register portal modal reducer to root reducer');
+    }
+
+    return {};
+  }
+
+  return state.modals;
+};
