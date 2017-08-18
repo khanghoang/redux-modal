@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { ModalManager } from './modalManager';
 import { isModalOpenSelector } from './selector';
 
-export const connectModal = name => {
+export const connectModal = (name, props = {}, gate = 'root') => {
   return Component => {
     const HOC =  connect(
       state => ({
@@ -13,6 +13,8 @@ export const connectModal = name => {
     );
     ModalManager.register({
       name,
+      gate,
+      props,
       component: HOC(Component),
     })
   };

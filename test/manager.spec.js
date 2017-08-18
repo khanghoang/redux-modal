@@ -24,6 +24,7 @@ describe('Modal Manager', () => {
       const modal = {
         name: 'mymodal',
         component: () => null,
+        gate: 'root',
       };
       ModalManager.register(modal);
       const actual = ModalManager.getModals();
@@ -37,6 +38,7 @@ describe('Modal Manager', () => {
         const modal = {
           name: 'mymodal',
           component,
+          gate: 'root',
         };
         ModalManager.register(modal);
         const actual = ModalManager.getModalByName('mymodal');

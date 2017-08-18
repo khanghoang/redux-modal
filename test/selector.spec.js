@@ -4,7 +4,9 @@ describe('Selector', () => {
   it('returns isOpen value', () => {
     const state = {
       modals: {
-        myform: {},
+        myform: {
+          gate: 'root',
+        },
       }
     };
     const actual = isModalOpenSelector('myform')(state);
@@ -19,7 +21,7 @@ describe('Portal selector', () => {
         myform: {},
       }
     };
-    const actual = portalSelector(state);
+    const actual = portalSelector('root')(state);
     expect(actual).toEqual({ myform: {} });
   });
 });

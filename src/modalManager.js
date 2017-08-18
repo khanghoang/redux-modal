@@ -2,17 +2,21 @@ export const ModalManagerClass = () => {
   let modals = {};
 
   return {
-    register: ({ name, component = () => null }) => {
-      modals[name] = component;
+    register: ({ name = '', gate = 'root', component = () => null }) => {
+      modals[name] = {
+        component,
+        gate,
+        name,
+      };
     },
     getModals: () => {
       return Object.keys(modals).map(k => {
-        return { name: k, component: modals[k] };
+        return modals[k];
       });
     },
     getModalByName: name => {
       if (!modals[name]) return undefined;
-      return { name, component: modals[name] };
+      return modals[name];
     },
   };
 };

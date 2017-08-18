@@ -5,16 +5,23 @@ import { combineReducers, compose } from 'redux';
 
 import { createStore } from 'redux';
 import TestUtils from 'react-dom/test-utils';
+import { mount, render } from 'enzyme';
 
 import { ModalManagerClass, __purge } from '../src/modalManager';
-import { ModalPortal } from '../src/portal';
+import { ModalPortal, getPortalByGate } from '../src/portal';
 import { close, open, toggle } from '../src/actions';
 import { connectModal } from '../src/connectModal';
 import modalReducer from '../src/reducer';
 
 class DumpModal extends Component {
   render() {
-    return null;
+    return <div id='modal1'>DumpModal</div>;
+  }
+}
+
+class DumpModal2 extends Component {
+  render() {
+    return <div id='modal2'>DumpModal2</div>;
   }
 }
 
@@ -38,8 +45,8 @@ describe('connectModal', () => {
   });
 
   it('can work with recompose', () => {
-    const mapProps = (mapFn) => 
-      (Component) => (props) => <Component {...mapFn(props)} />
+    const mapProps = mapFn => Component => props =>
+      <Component {...mapFn(props)} />;
     compose(
       connectModal('mypopup'),
       mapProps(({ isOpen }) => ({ open: isOpen }))
@@ -57,9 +64,7 @@ describe('connectModal', () => {
 
   describe('DEV environment', () => {
     it('warns the user when he forgets to add reducer to root reducer', () => {
-      compose(
-        connectModal('mypopup'),
-      )(DumpModal);
+      compose(connectModal('mypopup'))(DumpModal);
       const store = createStore(() => ({}));
 
       global.__DEV__ = true;
@@ -77,9 +82,7 @@ describe('connectModal', () => {
 
   describe('DEV production', () => {
     it('does not warn the user when he forgets to add reducer to root reducer', () => {
-      compose(
-        connectModal('mypopup'),
-      )(DumpModal);
+      compose(connectModal('mypopup'))(DumpModal);
       const store = createStore(() => ({}));
 
       global.__DEV__ = false;
@@ -107,5 +110,39 @@ describe('connectModal', () => {
         store.dispatch(open('mypopup'));
       }).not.toThrow();
     });
+  });
+});
+
+describe('Multiple Portals', () => {
+  beforeEach(__purge);
+  const TestDiv = ({ children }) =>
+    <div>
+      {children}
+    </div>;
+  it('can have multilple portals', () => {
+    connectModal('mypopup1', {})(DumpModal);
+    connectModal('mypopup2', {}, 'portal2')(DumpModal2);
+
+    const ModalPortal1 = getPortalByGate();
+    const ModalPortal2 = getPortalByGate('portal2');
+    const store = createStore(combineReducers(modalReducer));
+    const container = mount(
+      <Provider store={store}>
+        <div id='portal1'>
+          <ModalPortal1 wrapComponent="div" />
+          <div id='portal2'>
+            <ModalPortal2 wrapComponent="div"/>
+          </div>
+        </div>
+      </Provider>
+    );
+    store.dispatch(open('mypopup1'));
+    store.dispatch(open('mypopup2'));
+
+    expect(container.find('#portal1').find('#modal1').exists()).toEqual(true);
+    expect(container.find('#portal2').find('#modal2').exists()).toEqual(true);
+
+    expect(container.find('#modal1').length).toEqual(1);
+    expect(container.find('#modal2').length).toEqual(1);
   });
 });
