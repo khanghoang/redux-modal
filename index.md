@@ -18,7 +18,8 @@ npm install @khanghoang/redux-modal
 ### Simple example
 Example code at `examples/simple/`  
 
-Your modal component code
+#### Define your modal
+`./MyConnectedModal.js`
 ```
 import React, { Component } from 'react';
 import { Modal, Text } from 'react-native';
@@ -36,8 +37,24 @@ const MyModal = ({ isOpen }) => {
 
 export default connectModal('mymodal')(MyModal);
 ```
+#### Set the input
+Add the `modal` to the view heirarchy as usually
+```
+import React, { Component, View, Text } from 'react';
+import MyConnectedModal from './MyConnectedModal.js'
 
-In the place you want it to display, usually it's your root view.
+const MyView = () => (
+  <View>
+    <View>
+      <Text>Dummy view</Text>
+    <View>
+    <MyConnectedModal />
+  </View>
+)
+```
+
+#### Set the output
+In the place you want it to display, usually it's your root view. 
 ```
 import React, { Component, View } from 'react';
 import { Provider } from 'react-redux';
@@ -53,6 +70,7 @@ const App = () => {
 };
 ```
 
+#### To open the modal
 Then you want to `open` `mymodal` component from somewhere else in your app.
 ```                                  
 import React, { Component } from 'react';
@@ -76,7 +94,7 @@ export default connect(null, { open });
 ### Advanced example
 In some apps, you may want to have multilple portals which are at different places. We support 
 them as well.  
-Firstly, you need define your modal.
+### Define your modal.
 ```
 import React, { Component } from 'react';
 import { Modal, Text } from 'react-native';
@@ -94,7 +112,7 @@ const MyModal = ({ isOpen }) => {
 
 export default connectModal('mymodal', {}, 'gate_1')(MyModal);
 ```
-Then get your portal for that modal.
+#### Get your portal for that modal.
 ```
 import React, { Component, View } from 'react';
 import { Provider } from 'react-redux';
@@ -119,5 +137,5 @@ Then you can `open` the modal with the same action as what we discuss above in `
 A: No, we use name as unique id for each modals.
 
 #### Q: I really need your help now, how can I ping you?
-A: I always want to listen your feedback and help you out.
+A: I always want to listen to your feedbacks and help you out.
 Just ping my twitter [@khanght](https://twitter.com/@khanght)
