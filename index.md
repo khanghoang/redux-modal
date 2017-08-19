@@ -1,11 +1,8 @@
 ---
-# You don't need to edit this file, it's empty on purpose.
-# Edit theme's home layout instead if you wanna make some changes
-# See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 layout: home
+title: Home
+permalink: /
 ---
-# Redux Modal
-A convenient way to connect your modal with redux store.
 
 # Installation
 You can install via `yarn`
