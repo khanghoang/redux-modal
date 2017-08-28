@@ -6,11 +6,18 @@
   "scripts": {
     "test": "jest --i",
     "test:ci": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "prepublish": "npm run build",
+    "postpublish": "npm run build:clean",
+    "build:clean": "rm -rf dist || true",
+    "prebuild": "npm run build:clean",
+    "build": "rollup -c"
   },
   "devDependencies": {
     "babel-jest": "^20.0.3",
-    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-lodash": "^3.2.11",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "enzyme": "^2.9.1",
@@ -19,10 +26,15 @@
     "react-addons-test-utils": "^15.6.0",
     "react-dom": "^15.6.1",
     "react-test-renderer": "^15.6.1",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "rollup": "^0.49.1",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-commonjs": "^8.2.0",
+    "rollup-plugin-node-resolve": "^3.0.0"
   },
   "dependencies": {
     "lodash": "^4.17.4",
+    "react-native": "^0.47.2",
     "react-redux": "^5.0.6"
   },
   "peerDependencies": {
