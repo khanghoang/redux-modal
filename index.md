@@ -23,7 +23,7 @@ Example code at `examples/simple/`
 ```
 import React, { Component } from 'react';
 import { Modal, Text } from 'react-native';
-import { connectModal } from '@khanghoang/connectModal';
+import { connectModal } from '@khanghoang/redux-modal';
 
 const MyModal = ({ isOpen }) => {
   return (
