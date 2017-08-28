@@ -11,7 +11,8 @@
     "postpublish": "npm run build:clean",
     "build:clean": "rm -rf dist || true",
     "prebuild": "npm run build:clean",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "start:example": "cd example && yarn start"
   },
   "devDependencies": {
     "babel-jest": "^20.0.3",
